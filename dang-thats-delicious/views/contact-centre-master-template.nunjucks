@@ -1,0 +1,72 @@
+{% import "fragments/alerts.nunjucks" as alerts %}
+{% import "fragments/form-groups.nunjucks" as formGroup %}
+{% import "fragments/modals.nunjucks" as modals %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Contact Centre - {{ pageTitle }}</title>
+  {% if development %}
+		{% include "master-templates/master-template-partials/responsive-styles.nunjucks" %}
+	{% endif %}
+  {% block theme %}
+      <link href="../../themes/theme-cc/css/style.css" rel="stylesheet">
+  {% endblock %}
+  {% block headStyles %}
+    <style>
+        .theme_selector_wrapper {
+            display: none!important;
+        }
+    </style>
+  {% endblock %}
+  {% block headScripts %}
+      {% include "master-templates/master-template-partials/head-scripts.nunjucks" %}
+  {% endblock %}
+</head>
+
+{% set contactCentre = true %}
+
+{% import "fragments/alerts.nunjucks" as alerts %}
+{% import "fragments/form-groups.nunjucks" as formGroup %}
+{% import "fragments/modals.nunjucks" as modals %}
+
+  <body class="contact-centre {{ bodyClass }}">
+    <div class="site-wrapper">
+        {% block header %}
+            {% include "master-templates/master-template-partials/contact-centre/dashboard.nunjucks" %}
+        {% endblock %}
+
+        {% block mainWrapper %}
+            <div class="cc-content-left">
+                {% block navigation %}
+                    {% include "master-templates/master-template-partials/contact-centre/navigation.nunjucks" %}
+                {% endblock %}
+            </div>
+
+        <div class="cc-content-main {{ mainContentClass }}">
+                {% if hasError %}
+                    {{ alerts.alert ('danger', '<p>Your session will time out in <strong>120 seconds</strong> please <a href="#">click here</a> to extend your session.</p>')}}
+                {% endif %}
+                {% block main %}{% endblock %}
+            </div>
+        {% endblock %}
+
+  		{% block dashboardModals %}
+  			{% include "master-templates/master-template-partials/contact-centre/modals/end-call.nunjucks" %}
+  			{% include "master-templates/master-template-partials/contact-centre/modals/log-out.nunjucks" %}
+  		{% endblock %}
+
+        {% block hiddenContent %}
+
+        {% endblock %}
+
+        {% block footerScripts %}
+            {% include "master-templates/master-template-partials/scripts.nunjucks" %}
+            {% include "master-templates/master-template-partials/contact-centre/cc-scripts.nunjucks" %}
+        {% endblock %}
+    </div>
+  </body>
+</html>
